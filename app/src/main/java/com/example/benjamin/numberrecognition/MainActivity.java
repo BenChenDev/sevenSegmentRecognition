@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     private Mat temp;
     private String photoPath ="";
     private int anyValue = 8; //to increase decrease inner window size on click of buttons
-    public static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/ROAD/assets/";
+    public static final String DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/NumberRecognition/assets/";
     public static final String LANG = "letsgodigital";
 
 
@@ -81,8 +81,12 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     public  void onResume(){
         super.onResume();
-
-        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+        if(OpenCVLoader.initDebug()){
+            Toast.makeText(getApplicationContext(), "opencv ready", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "opencv fail", Toast.LENGTH_LONG).show();
+        }
+//        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mLoaderCallback);
     }
 
 
@@ -90,16 +94,17 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
 
         for (String path : paths) {
             File dir = new File(path);
             if (!dir.exists()) {
                 if (!dir.mkdirs()) {
-                    Log.v(TAG, "ERROR: Creation of directory " + path + " on sdcard failed");
+                    Log.v(TAG, "ERROR: Creation of directory " + path + "failed");
                     return;
                 } else {
-                    Log.v(TAG, "Created directory " + path + " on sdcard");
+                    Log.v(TAG, "Created directory " + path);
                 }
             }
 
@@ -131,8 +136,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
             }
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+
         tts = new TextToSpeech(this, this);
         mOpenCvCameraView = findViewById(R.id.java_cam_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);

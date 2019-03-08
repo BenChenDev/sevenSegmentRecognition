@@ -75,7 +75,7 @@
         android:id="@+id/field"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:text="R.O.A.D" />
+        android:text="" />
 
     <!--
     <Button
