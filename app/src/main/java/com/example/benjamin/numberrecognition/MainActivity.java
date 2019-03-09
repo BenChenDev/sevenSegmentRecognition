@@ -180,24 +180,26 @@ public class MainActivity extends AppCompatActivity {
             int cropwidth = (int)(maxx-minx);
             int cropheigh = (int)(maxy-miny);
             Bitmap cropresult = Bitmap.createBitmap(cropwidth, cropheigh, Bitmap.Config.RGB_565);
-            Utils.matToBitmap(cropped, cropresult);
-            picture.setImageBitmap(cropresult);
+//            Utils.matToBitmap(cropped, cropresult);
+//            picture.setImageBitmap(cropresult);
 
 //            Utils.matToBitmap(edgeMat, result);
 //            picture.setImageBitmap(result);
+            Imgproc.cvtColor(cropped, grayMat, Imgproc.COLOR_BGR2GRAY);
 
-            Imgproc.threshold(grayMat, binMat, 80, 255, THRESH_BINARY_INV);
-//            Utils.matToBitmap(binMat, result);
-//            picture.setImageBitmap(result);
+
+            Imgproc.threshold(grayMat, binMat, 50, 255, THRESH_BINARY_INV);
+//            Utils.matToBitmap(binMat, cropresult);
+//            picture.setImageBitmap(cropresult);
 
             final Size kernelSize = new Size(3, 3);
             Mat element = Imgproc.getStructuringElement(MORPH_RECT, kernelSize);
 
             Imgproc.dilate(binMat, image_dil, element);
-//            Utils.matToBitmap(image_dil, grayBitmap);
-//            picture.setImageBitmap(grayBitmap);
+            Utils.matToBitmap(image_dil, cropresult);
+            picture.setImageBitmap(cropresult);
 
-
+/*
             List<MatOfPoint> contours_out = new ArrayList<>();
             Mat hierarchy = new Mat();
             Imgproc.findContours(image_dil, contours_out, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
@@ -231,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
 
 //            Utils.matToBitmap(image_dil, grayBitmap);
 //            picture.setImageBitmap(grayBitmap);
+*/
         }
 
 
