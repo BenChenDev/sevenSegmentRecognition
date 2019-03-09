@@ -3,9 +3,7 @@ package com.example.benjamin.numberrecognition;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,10 +13,9 @@ import android.widget.Toast;
 
 import org.opencv.android.OpenCVLoader;
 
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
-    Button takePicture;
+    Button btntakePicture;
     ImageView picture;
     private static final int PHOTO_REQUEST = 10;
     private Uri imageUri;
@@ -31,9 +28,10 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "opencv failed", Toast.LENGTH_SHORT).show();
         }
-        takePicture = findViewById(R.id.btn_OCR);
-        picture = findViewById(R.id.iv_test_OCRImage);
-        takePicture.setOnClickListener(new View.OnClickListener() {
+        btntakePicture = findViewById(R.id.takePictureButton);
+        picture = findViewById(R.id.OCRImage);
+
+        btntakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
