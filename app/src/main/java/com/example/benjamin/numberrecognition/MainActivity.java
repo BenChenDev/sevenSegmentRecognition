@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btntakePicture;
     ImageView picture;
-    final String TAG = ".MainActivity";
+    final String TAG = "debug";
     private static final int PHOTO_REQUEST = 10;
 
 
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             Mat Rgba = new Mat();
             Mat grayMat = new Mat();
             Mat binMat = new Mat();
+            Mat edgeMat = new Mat();
             Mat image_dil = new Mat();
             Mat middle = new Mat();
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -106,10 +107,63 @@ public class MainActivity extends AppCompatActivity {
             Imgproc.cvtColor(Rgba, grayMat, Imgproc.COLOR_BGR2GRAY);
             Utils.matToBitmap(grayMat, result);
             Imgproc.GaussianBlur(grayMat, grayMat, new Size(5, 5),0.0);
-            Imgproc.Canny(grayMat, grayMat, 80, 200);
-            Utils.matToBitmap(grayMat, result);
+
+            //detect edge
+            Imgproc.Canny(grayMat, edgeMat, 80, 200);
+//            Utils.matToBitmap(edgeMat, result);
+//            picture.setImageBitmap(result);
+
+
+            List<MatOfPoint> contours = new ArrayList<>();
+            Mat hier = new Mat();
+            Imgproc.findContours(edgeMat, contours, hier, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+
+            //find large contour area
+            double maxVal = 0;
+            int maxValIdx = 0;
+            for (int i = 0; i < contours.size(); i++)
+            {
+                MatOfPoint2f approx = new MatOfPoint2f();
+                MatOfPoint2f contour2f = new MatOfPoint2f( contours.get(i).toArray() );
+
+                double distance = Imgproc.arcLength(contour2f, true)*0.02;
+                Imgproc.approxPolyDP(contour2f, approx, distance, true);
+                MatOfPoint points = new MatOfPoint( approx.toArray() );
+                if(points.toArray().length == 4){
+                    Log.d(TAG, "one contour with 4 points found.");
+                    double contourArea = Imgproc.contourArea(contours.get(i));
+                    if (maxVal < contourArea)
+                    {
+                        maxVal = contourArea;
+                        maxValIdx = i;
+                    }
+
+                }
+
+            }
+
+            MatOfPoint2f approx_big = new MatOfPoint2f();
+            MatOfPoint2f contour2f_big = new MatOfPoint2f( contours.get(maxValIdx).toArray() );
+
+            double distance_big = Imgproc.arcLength(contour2f_big, true)*0.02;
+            Imgproc.approxPolyDP(contour2f_big, approx_big, distance_big, true);
+            MatOfPoint points_big = new MatOfPoint( approx_big.toArray() );
+            int l = points_big.toArray().length;
+            Point p1 = points_big.toArray()[0];
+            Point p2 = points_big.toArray()[1];
+            Point p3 = points_big.toArray()[2];
+            Point p4 = points_big.toArray()[3];
+
+//           Rect rect_big = Imgproc.boundingRect(points_big);
+
+//            Rect rectCrop = new Rect((int)p1.x, (int)p1.y , , (p4.y-p1.y+1));
+//            Mat image_output= grayMat.submat(rect_big);
+//            Bitmap crop = Bitmap.createBitmap(imageBitmap);
+            //Utils.matToBitmap(image_output, result);
             picture.setImageBitmap(result);
 
+//            Utils.matToBitmap(edgeMat, result);
+//            picture.setImageBitmap(result);
 
             Imgproc.threshold(grayMat, binMat, 80, 255, THRESH_BINARY_INV);
 //            Utils.matToBitmap(binMat, result);
@@ -117,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
             final Size kernelSize = new Size(3, 3);
             Mat element = Imgproc.getStructuringElement(MORPH_RECT, kernelSize);
+
             Imgproc.dilate(binMat, image_dil, element);
 //            Utils.matToBitmap(image_dil, grayBitmap);
 //            picture.setImageBitmap(grayBitmap);
