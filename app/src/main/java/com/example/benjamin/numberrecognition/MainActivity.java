@@ -3,6 +3,7 @@ package com.example.benjamin.numberrecognition;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -148,19 +149,39 @@ public class MainActivity extends AppCompatActivity {
             double distance_big = Imgproc.arcLength(contour2f_big, true)*0.02;
             Imgproc.approxPolyDP(contour2f_big, approx_big, distance_big, true);
             MatOfPoint points_big = new MatOfPoint( approx_big.toArray() );
+//            Rect rect_big = Imgproc.boundingRect(points_big);
+//            Imgproc.rectangle(Rgba, new Point(rect_big.x, rect_big.y), new Point(rect_big.x + rect_big.width, rect_big.y + rect_big.height), new Scalar(255, 0, 0, 255), 1);
             int l = points_big.toArray().length;
             Point p1 = points_big.toArray()[0];
             Point p2 = points_big.toArray()[1];
             Point p3 = points_big.toArray()[2];
             Point p4 = points_big.toArray()[3];
 
-//           Rect rect_big = Imgproc.boundingRect(points_big);
+            double minx = 1000.0, miny = 1000.0;
+            double maxx=0.0, maxy=0.0;
+            for(int i = 0; i < 4; i++){
+                if(points_big.toArray()[i].x < minx){
+                    minx = points_big.toArray()[i].x;
+                }
+                if(points_big.toArray()[i].y < miny){
+                    miny = points_big.toArray()[i].y;
+                }
+                if(points_big.toArray()[i].x > maxx){
+                    maxx = points_big.toArray()[i].x;
+                }
+                if(points_big.toArray()[i].y > maxy){
+                    maxy = points_big.toArray()[i].y;
+                }
+            }
 
-//            Rect rectCrop = new Rect((int)p1.x, (int)p1.y , , (p4.y-p1.y+1));
-//            Mat image_output= grayMat.submat(rect_big);
-//            Bitmap crop = Bitmap.createBitmap(imageBitmap);
-            //Utils.matToBitmap(image_output, result);
-            picture.setImageBitmap(result);
+            Rect roi = new Rect((int)minx, (int)miny, (int)(maxx-minx), (int)(maxy-miny));
+            Mat cropped = new Mat(Rgba, roi);
+
+            int cropwidth = (int)(maxx-minx);
+            int cropheigh = (int)(maxy-miny);
+            Bitmap cropresult = Bitmap.createBitmap(cropwidth, cropheigh, Bitmap.Config.RGB_565);
+            Utils.matToBitmap(cropped, cropresult);
+            picture.setImageBitmap(cropresult);
 
 //            Utils.matToBitmap(edgeMat, result);
 //            picture.setImageBitmap(result);
