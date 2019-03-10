@@ -191,17 +191,22 @@ public class MainActivity extends AppCompatActivity {
 
 
             Imgproc.threshold(grayMat, binMat, 45, 255, THRESH_BINARY_INV);
-            Utils.matToBitmap(binMat, cropresult);
-            picture.setImageBitmap(cropresult);
+//            Utils.matToBitmap(binMat, cropresult);
+//            picture.setImageBitmap(cropresult);
 
             final Size kernelSize = new Size(1, 2);
-            Mat element = Imgproc.getStructuringElement(MORPH_ELLIPSE, kernelSize);
+            Mat element1 = Imgproc.getStructuringElement(MORPH_ELLIPSE, kernelSize);
 
-            Imgproc.dilate(binMat, image_dil, element);
-            Utils.matToBitmap(image_dil, cropresult);
- //           picture.setImageBitmap(cropresult);
+            Imgproc.dilate(binMat, image_dil, element1);
 
-/*
+            final Size kernel = new Size(1, 3);
+            Mat element2 = Imgproc.getStructuringElement(MORPH_RECT, kernel);
+            Imgproc.dilate(image_dil, image_dil, element2);
+
+//            Utils.matToBitmap(image_dil, cropresult);
+//            picture.setImageBitmap(cropresult);
+
+
             List<MatOfPoint> contours_out = new ArrayList<>();
             Mat hierarchy = new Mat();
             Imgproc.findContours(image_dil, contours_out, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
@@ -218,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                 MatOfPoint2f approxCurve = new MatOfPoint2f();
                 MatOfPoint2f contour2f = new MatOfPoint2f( contours_out.get(i).toArray() );
                 //Processing on mMOP2f1 which is in type MatOfPoint2f
-                double approxDistance = Imgproc.arcLength(contour2f, true)*0.02;
+                double approxDistance = Imgproc.arcLength(contour2f, true)*0.08;
                 Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
 
                 //Convert back to MatOfPoint
@@ -227,15 +232,15 @@ public class MainActivity extends AppCompatActivity {
                 // Get bounding rect of contour
                 Rect rect = Imgproc.boundingRect(points);
 
-                Imgproc.rectangle(image_dil, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 3);
+                Imgproc.rectangle(image_dil, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0, 255), 1);
 
 
 
             }
 
-//            Utils.matToBitmap(image_dil, grayBitmap);
-//            picture.setImageBitmap(grayBitmap);
-*/
+            Utils.matToBitmap(image_dil, cropresult);
+            picture.setImageBitmap(cropresult);
+
         }
 
 
