@@ -33,10 +33,12 @@ import java.util.List;
 
 import static org.opencv.imgproc.Imgproc.CHAIN_APPROX_NONE;
 import static org.opencv.imgproc.Imgproc.CHAIN_APPROX_SIMPLE;
+import static org.opencv.imgproc.Imgproc.MORPH_ELLIPSE;
 import static org.opencv.imgproc.Imgproc.MORPH_RECT;
 import static org.opencv.imgproc.Imgproc.RETR_EXTERNAL;
 import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
 import static org.opencv.imgproc.Imgproc.THRESH_BINARY_INV;
+import static org.opencv.imgproc.Imgproc.THRESH_OTSU;
 import static org.opencv.imgproc.Imgproc.boundingRect;
 import static org.opencv.imgproc.Imgproc.findContours;
 
@@ -188,16 +190,16 @@ public class MainActivity extends AppCompatActivity {
             Imgproc.cvtColor(cropped, grayMat, Imgproc.COLOR_BGR2GRAY);
 
 
-            Imgproc.threshold(grayMat, binMat, 50, 255, THRESH_BINARY_INV);
-//            Utils.matToBitmap(binMat, cropresult);
-//            picture.setImageBitmap(cropresult);
+            Imgproc.threshold(grayMat, binMat, 45, 255, THRESH_BINARY_INV);
+            Utils.matToBitmap(binMat, cropresult);
+            picture.setImageBitmap(cropresult);
 
-            final Size kernelSize = new Size(3, 3);
-            Mat element = Imgproc.getStructuringElement(MORPH_RECT, kernelSize);
+            final Size kernelSize = new Size(1, 2);
+            Mat element = Imgproc.getStructuringElement(MORPH_ELLIPSE, kernelSize);
 
             Imgproc.dilate(binMat, image_dil, element);
             Utils.matToBitmap(image_dil, cropresult);
-            picture.setImageBitmap(cropresult);
+ //           picture.setImageBitmap(cropresult);
 
 /*
             List<MatOfPoint> contours_out = new ArrayList<>();
