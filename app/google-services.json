@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "624624578882",
+    "firebase_url": "https://numberrecognition-2a3ba.firebaseio.com",
+    "project_id": "numberrecognition-2a3ba",
+    "storage_bucket": "numberrecognition-2a3ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624624578882:android:78796252831847ad",
+        "android_client_info": {
+          "package_name": "com.example.benjamin.numberrecognition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624624578882-cg79e8d07r2ipc2b8kcu4ilguf62i2tl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7pDdmludNiQPKNJLPoYgXFdbkvy-v51A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

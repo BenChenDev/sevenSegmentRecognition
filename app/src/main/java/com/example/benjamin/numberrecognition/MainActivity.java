@@ -39,6 +39,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends Activity implements CvCameraViewListener2{
 
 
@@ -159,7 +162,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
     @Override
     protected void onResume() {
         super.onResume();
-
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_13, this, mLoaderCallback);
     }
 
@@ -187,7 +189,11 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
 
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
 
+        myRef.setValue("Hello, World!");
 
         mOpenCvCameraView = (JavaCameraView) findViewById(R.id.OpenCV_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
