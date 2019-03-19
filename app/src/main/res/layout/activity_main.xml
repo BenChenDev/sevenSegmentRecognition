@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         opencv:camera_id="any"
-        opencv:show_fps="true" />
+        opencv:show_fps="false" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -101,11 +101,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_title"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@android:color/background_light" />
 
             <TextView
                 android:id="@+id/tv_recog_results"
-                android:layout_width="12dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_hint"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/background_light"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:onClick="recognize"
-                android:src="@drawable/start" />
+                android:src="@drawable/baseline_camera_white_18dp" />
         </LinearLayout>
     </RelativeLayout>
 

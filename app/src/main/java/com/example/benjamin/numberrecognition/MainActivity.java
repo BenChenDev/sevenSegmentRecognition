@@ -350,19 +350,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
          * line a, b and c, the number of passed segments should be 3, 1 and 1 respectively.
          * Thus the recognition code of "3" is 311. That is, for an unknown digital,
          * if its code is "311", it should be digital "3".
-         *
-         *                 a
-         *                /
-         *           ####/#####
-         *              /    #
-         *    b -----------------
-         *            /    #
-         *       ####/#####
-         *          /    #
-         *   c -----------------
-         *        /    #
-         *    ###/#####
-         *      /
+
          */
 
         // the vertical position of the line of the digitals
@@ -582,9 +570,9 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
             for (int i = 0; i < recog_results.size(); i++) {
                 int digital = recog_results.get(i);
                 if (digital >= 0) {
-                    sRecogResults += String.format("%d, ", digital);
+                    sRecogResults += String.format("%d", digital);
                 } else {
-                    sRecogResults += "NA, ";
+                    sRecogResults += "NA";
                 }
             }
 
@@ -698,12 +686,12 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 
             var_sum += Math.pow(widths.get(i)-avg, 2);
 
-            sRecogResults += String.format("%d, ", widths.get(i));
+            sRecogResults += String.format("%d", widths.get(i));
         }
 
         double variance = var_sum / widths.size();
 
-        sRecogResults += String.format("%f, ", variance);
+        sRecogResults += String.format("%f", variance);
 
         handler.sendEmptyMessage(iMsgShowResults);
 
