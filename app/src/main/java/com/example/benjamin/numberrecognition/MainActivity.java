@@ -18,6 +18,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -123,6 +124,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
 
     private ImageView ivScanLine;
 
+    private TextView results_view;
+
     // message ID
     private final int iMsgShowResults = 0x123;
     private final int iMsgScanAnimation = 0x124;
@@ -140,7 +143,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
                 case iMsgShowResults:	// show the recognition results
                     ivScanLine.setVisibility(View.INVISIBLE);
 
-                    TextView results_view = (TextView) findViewById(R.id.tv_recog_results);
+                    results_view = (TextView) findViewById(R.id.tv_recog_results);
                     results_view.setText(sRecogResults);
 
                     break;
@@ -219,13 +222,28 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
         }, 0, 2000);
     }
 
+
+    //upload data to Firebase
+    public void uploadData(View v){
+
+        if(results_view == null || results_view.getText() == null || results_view.getText().toString().isEmpty()){
+            Toast.makeText(MainActivity.this, "No result found, please scan a number.", Toast.LENGTH_LONG).show();
+        } else {
+            String result_text = results_view.getText().toString();
+            Intent editData = new Intent(this, EditDateActivity.class);
+            editData.putExtra("Data", result_text);
+            startActivity(editData);
+        }
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.about:
                 new AlertDialog.Builder(this)
                         .setTitle("About the app")
-                        .setMessage("OpenCV based OCR Demo. Version 1.0\nAuthor: yuyang.development@gmail.com")
+                        .setMessage("")
                         .setPositiveButton("OK", null)
                         .create().show();
                 break;

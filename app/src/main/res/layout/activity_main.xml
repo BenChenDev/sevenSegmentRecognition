@@ -133,13 +133,31 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <ImageButton
-                android:id="@+id/ibtn_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:onClick="recognize"
-                android:src="@drawable/baseline_camera_white_18dp" />
+            <RelativeLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/upload"
+                    android:layout_width="47dp"
+                    android:layout_height="41dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@android:drawable/stat_sys_upload"
+                    android:onClick="uploadData" />
+
+                <ImageButton
+                    android:id="@+id/ibtn_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:onClick="recognize"
+                    android:src="@drawable/baseline_camera_white_18dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_toRightOf="@id/upload"/>
+
+
+            </RelativeLayout>>
+
+
         </LinearLayout>
     </RelativeLayout>
 
