@@ -40,9 +40,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 public class MainActivity extends Activity implements CvCameraViewListener2{
 
 
@@ -192,12 +189,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
 
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
-
         mOpenCvCameraView = (JavaCameraView) findViewById(R.id.OpenCV_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
@@ -230,7 +221,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
             Toast.makeText(MainActivity.this, "No result found, please scan a number.", Toast.LENGTH_LONG).show();
         } else {
             String result_text = results_view.getText().toString();
-            Intent editData = new Intent(this, EditDateActivity.class);
+            Intent editData = new Intent(this, EditDataActivity.class);
             editData.putExtra("Data", result_text);
             startActivity(editData);
         }
