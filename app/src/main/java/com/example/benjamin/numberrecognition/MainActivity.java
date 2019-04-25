@@ -228,6 +228,19 @@ public class MainActivity extends Activity implements CvCameraViewListener2{
     }
 
 
+    //to record list activity
+    public void toListActivity(View v){
+
+        if(results_view == null || results_view.getText() == null || results_view.getText().toString().isEmpty()){
+            Toast.makeText(MainActivity.this, "No result found, please scan a number.", Toast.LENGTH_LONG).show();
+        } else {
+            String result_text = results_view.getText().toString();
+            Intent editData = new Intent(this, EditDataActivity.class);
+            editData.putExtra("Data", result_text);
+            startActivity(editData);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

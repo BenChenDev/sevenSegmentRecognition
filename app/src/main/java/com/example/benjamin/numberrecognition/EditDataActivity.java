@@ -1,5 +1,6 @@
 package com.example.benjamin.numberrecognition;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,11 +20,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EditDataActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditDataActivity extends Activity implements AdapterView.OnItemSelectedListener {
     final String TAG = "editPage";
     private String number;
     private String unit;
-    EditText dataEditText;
+    EditText dataEditText, note;
     Spinner unit_spinner;
     Button saveButton;
 
@@ -42,6 +44,7 @@ public class EditDataActivity extends AppCompatActivity implements AdapterView.O
 
 
         dataEditText = findViewById(R.id.dataEditText);
+        note = findViewById(R.id.editText2);
 
         //get data intent
         Intent intent = getIntent();
@@ -69,6 +72,7 @@ public class EditDataActivity extends AppCompatActivity implements AdapterView.O
             @Override
             public void onClick(View v) {
                 String data = dataEditText.getText().toString();
+                String n = note.getText().toString();
                 //get current date time
                 Date date = new Date();
                 String dateTimeFormat = "hh:mm a dd-MM-yyyy";
@@ -82,7 +86,9 @@ public class EditDataActivity extends AppCompatActivity implements AdapterView.O
                 uploadData.child(id).child("Date").setValue(formattedDate);
                 uploadData.child(id).child("Value").setValue(data);
                 uploadData.child(id).child("Unit").setValue(unit);
-
+                uploadData.child(id).child("Note").setValue(n);
+                Toast.makeText(getApplicationContext(), "Data saved!", Toast.LENGTH_LONG).show();
+                finish();
             }
         });
     }

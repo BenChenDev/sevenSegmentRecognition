@@ -4,7 +4,7 @@
     <string name="reg_title">\nRecognition results:</string>
     <string name="reg_hint">Press the button to recognize 7-segments digitals\n</string>
 
-    <string name ="unit_prompt">Choose a unit</string>
+    <string name="unit_prompt">Choose a unit</string>
     <string-array name="units_arrays">
         <item>kg</item>
         <item>lb</item>

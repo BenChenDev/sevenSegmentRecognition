@@ -154,6 +154,15 @@
                     android:layout_marginLeft="60dp"
                     android:layout_toRightOf="@id/upload"/>
 
+                <ImageButton
+                    android:id="@+id/ibtn_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_toRightOf="@id/ibtn_start"
+                    android:background="@null"
+                    android:onClick="recognize"
+                    android:src="@mipmap/list_icon" />
 
             </RelativeLayout>>
 
